@@ -1,0 +1,39 @@
+# workflow的name, 可选
+# 如果不写就以文件名作为name
+name: TEST
+
+# webhook events
+# 触发workflow的钩子事件
+on:
+  push:
+    # 只对 main 分支触发
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  # 允许在GitHub Action Tab中手动运行workflow
+  workflow_dispatch:
+
+# 每个workflow必须包含至少一个jobs
+jobs:
+  # 这里只包含一个叫 build 的job
+  build:
+    # jobs运行在什么虚拟环境
+    runs-on: ubuntu-latest
+    # 每个job都包含若干步骤
+    steps:
+      # 使用官方定义好的 Action，运行命令
+      # 这里是checkout out $GITHUB_WORKSPACE 下的仓库，以便Job能访问它
+      - uses: actions/checkout@v3
+
+      # name 可选，用于描述该步骤
+      # 下面YAML语法等价于 {name: 'xxx', run: 'xxx'}
+      - name: Run a one line script
+        run: echo Hello World
+
+      - name: Run a multi line scripts
+        # | yaml语法，表示多行语法 等价于 "echo Add other actions to build\necho test, and deploy your project.\n"
+        run: |
+          echo Add other actions to build
+          echo test, and deploy your project.
+
