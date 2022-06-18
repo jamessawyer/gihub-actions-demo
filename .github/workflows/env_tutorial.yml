@@ -1,0 +1,28 @@
+name: Env 教程
+env:
+  # 定义workflow环境变量
+  WORKFLOW_VAR: "workflow 环境变量所有的属性都能访问"
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      JOB_VAR: "JOB 环境变量"
+
+    steps:
+      - name: 打印环境变量 🖨️
+        env:
+          STEP_VAR: "STEP 环境变量"
+        run: |
+          echo 下面是上面定义的环境变量
+          echo $WORKFLOW_VAR
+          echo $JOB_VAR
+          echo $STEP_VAR
