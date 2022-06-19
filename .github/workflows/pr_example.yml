@@ -1,0 +1,20 @@
+name: 自动PR审批
+
+on: [pull_request]
+
+jobs:
+  automatic-pr-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: PR审批
+        # action是否执行的条件判断
+        if: github.actor == 'dependabot[bot]'
+        # 使用第3方的actions
+        uses: andrewmusgrave/automatic-pull-request-review@0.0.5
+        # 给action提供参数
+        with:
+          # GITHUB_TOKEN 是自动生成的，用于提供身份验证
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          event: APPROVE
+          body: 'Thank you dependabot 🎊'
